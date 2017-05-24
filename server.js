@@ -9,7 +9,9 @@ var mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/project_3';
 var db = mongoose.connection;
 
 
+// CONTROLLERS //
 
+// MIDDLEWARE //
 
 
 
