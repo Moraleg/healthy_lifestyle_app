@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/Moraleg/healthy_lifestyle_app#readme",
   "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "express-session": "^1.15.3",
     "mongoose": "^4.10.2"
   }
 }
