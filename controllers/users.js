@@ -39,7 +39,7 @@ router.get('/:id', function(req, res) {
 });
 
 /* User Post Route */
-//tested with curl -> forbidden
+//tested with curl 
 router.post('/', function(req, res){
   req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)); //encrypts password
   User.create(req.body, function(err, createdUser){ // creates user
