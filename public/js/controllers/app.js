@@ -13,10 +13,6 @@ app.controller('mainController', ['$http', '$scope', function($http, $scope) {
   this.showMsg = false;
   this.msgContent = '';
 
-  // this.submitLogin = function() {
-  //   this.showMsg = false;
-  //   this.msgContent = '';
-  // };
 
   // USER SIGNUP //
   this.createAccount = function() {
@@ -59,10 +55,38 @@ app.controller('mainController', ['$http', '$scope', function($http, $scope) {
   }; //End createAccount
 
   // USER LOGIN //
+  this.submitLogin = function() {
+    this.showMsg = false;
+    this.msgContent = '';
 
-  $http({
+    $http({
+      method: 'POST',
+      url: '/sessions',
+      data: {
+        username: this.username,
+        password: this.password
+      }
+    }).then(function(response) {
+      console.log(response);
+      if(response.data.success === true) {
+        console.log('You\'ve logged in');
+        //I want to change view to dashboard
+        //And hide login modal
+      } else if (response.data.success === false) {
+        controller.msgContent = 'Sorry the username or password you entered is incorrect. Please try again.';
+        controller.showMsg = true;
+      }
+      controller.username = '';
+      controller.password = '';
+    }, function(error) {
+      console.log(error);
+      controller.msgContent = 'Sorry, something went wrong. Please try again.';
+      controller.showMsg = true;
+      this.username = '';
+      this.password = '';
+    });
+  };//End submitLogin
 
-  })
 
 
 
@@ -76,18 +100,8 @@ app.controller('mainController', ['$http', '$scope', function($http, $scope) {
 
 
 
-
+  //========= Event Listeners =======
 
 
 
 }]);//End mainController
-
-
-// VIEWS ngRoute
-
-// app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) { //.config just runs once on load
-//     $routeProvider.when("/dashboard", {
-//         templateUrl : "/partials/index-partials.html"
-//     });
-//     $locationProvider.html5Mode({ enabled: true, requireBase: false }); // tell angular to use push state
-// }]);

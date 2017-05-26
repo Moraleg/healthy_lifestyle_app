@@ -13,6 +13,8 @@
   <body ng-controller="mainController as ctrl">
     <!-- {{ctrl.test}} -->
 
+    <!-- CREATE ACCOUT -->
+
     <!--Button to close modal-->
     <div>
       <a class="close">X</a>
@@ -37,6 +39,25 @@
     <br>
     <!-- <p class="modal-text">Already have an account? <a class="login-anchor">Login Here</a></p> -->
 
+    <!-- CREATE ACCOUT -->
+    <!--Button to close modal-->
+<div>
+<a class="close">X</a>
+</div>
+<!-- Button to close the modal END-->
+<form ng-submit="ctrl.submitLogin()">
+  <div class="legend-container">
+    <legend><h2>Login</h2></legend>
+  </div>
+  <label for="username">Username:</label>
+  <input id="username-login" type="text" placeholder="username" ng-model="ctrl.username" required/>
+  <br/>
+  <label for="password">Password:</label>
+  <input id="password-login" type="password" placeholder="password" ng-model="ctrl.password" required min-length="8"/>
+  <br/>
+  <input id="login-btn" type="submit" value="LOGIN"/>
+</form>
+<p class="modal-text" ng-if="login.showMsg">{{login.msgContent}}</p>
 
 
   </body>
