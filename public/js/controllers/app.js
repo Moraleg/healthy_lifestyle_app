@@ -88,7 +88,21 @@ app.controller('mainController', ['$http', '$scope', function($http, $scope) {
   };//End submitLogin
 
 
+  // LOGOUT //
 
+  this.logoutUser = function() {
+    $http({
+      method: 'DELETE',
+      url: '/sessions'
+    }).then(function(response) {
+      console.log(response);
+      console.log('You\'ve logged out');
+      //I want to change the view back to the splash page
+    
+    }, function(error) {
+      console.log(error);
+    });
+  }; //End logoutUser
 
 
 
