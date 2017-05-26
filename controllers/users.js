@@ -1,13 +1,12 @@
 // USER CONTROLLER //
 
 // DEPENDENCIES //
-var express = require('express');
-var router = express.Router();
-var User = require('../models/users.js');
-var bcrypt = require('bcrypt');
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcrypt');
 
 // MODELS //
-/* workouts model */
+const User = require('../models/users.js');
 
 
 // ROUTES //
@@ -53,83 +52,86 @@ router.post('/', function(req, res){
   });
 });
 
-/* User Patch Routes */
-//tested with curl -> forbidden
-router.patch('/:id', function(req, res) { // user profile update
-  User.findById(req.params.id, function(err, foundUser) { // search for user
-    // check if session exists and if data is identical to database entry
-    if (req.session.currentuser && req.session.currentuser._id.toString() === foundUser._id.toString()) {
-      if(!err) { // if no error occurrs
-        // check if request body contains password information and if the
-        // password is at least 8 characters long
-          if (req.body.password !== undefined && req.body.password.length >= 8) {
-            req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)); // encrypt password
-            User.findByIdAndUpdate(req.params.id, // update user's password
-              { $set: { password: req.body.password } }, {new:true},
-              function(err, updatedUser){
-                if(!err) { // if no error occurrs ...
-                  req.session.currentuser = updatedUser; // save updated
-                  // user data in session
-                  updatedUser.password = ''; // clear password data
-                  res.json(updatedUser); // send user data to browser
-                } else { // if error occurrs ...
-                  res.json(err); // ... send error
-                }
-            });
-            // check if request body contains user name information and if
-            // username is not an empty string or only spaces ( --> also
-            // checked in front end, this is to cover curl requests)
-          } else if (req.body.username !== undefined && req.body.username.trim() !== '') {
-              User.findByIdAndUpdate(req.params.id, // update user's username
-              { $set: { username: req.body.username } }, {new:true},
-              function(err, updatedUser){
-                if(!err) {
-                  req.session.currentuser = updatedUser; // save updated
-                  // user data in session
-                  updatedUser.password = ""; // clear password data
-                  res.json(updatedUser); /// send user data to browser
-                } else {
-                  // if error occurrs ...
-                  res.json(err); // send error
-                }
-            });
-          } else {
-            // do not allow any other patch requests to this route
-            res.status(403).send('Forbidden');
-          }
-      } else { // if error occurrs ...
-        res.json(err); // send error
-      }
-    } else { // do not allow updates if user is not authorized
-      res.status(403).send('Forbidden');
-    }
-  });
-});
-
-/* User Delete Route */
-router.delete('/:id', function(req, res){
-  User.findById(req.params.id, function(err, foundUser){ // find user
-    if(req.session.currentuser && req.session.currentuser._id.toString() === foundUser._id.toString()){ // check if session exists and if user is
-      // authorized to delete this database entry
-      if (!err) { // if no error occurrs, delete user
-        User.findByIdAndRemove(req.params.id, function(err, deletedUser){
-          if (!err) { // if no error occurs, remove all 
-            req.session.destroy(function() { // log user out
-              res.json({data: 'success'}); // send confirmation that session
-              // has been destroyed
-            });
-          } else { // if error occurs
-            res.json(err); // send error
-          }
-        });
-      } else { // if error occurs
-        res.json(err);  // send error
-      }
-    } else { // do not allow updates if user is not authorized
-      res.status(403).send('Forbidden');
-    }
-  });
-});
+// /* User Patch Routes */
+// //tested with curl -> forbidden
+// router.patch('/:id', function(req, res) { // user profile update
+//   User.findById(req.params.id, function(err, foundUser) { // search for user
+//     // check if session exists and if data is identical to database entry
+//     if (req.session.currentuser && req.session.currentuser._id.toString() === foundUser._id.toString()) {
+//       if(!err) { // if no error occurrs
+//         // check if request body contains password information and if the
+//         // password is at least 8 characters long
+//           if (req.body.password !== undefined && req.body.password.length >= 8) {
+//             req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)); // encrypt password
+//             User.findByIdAndUpdate(req.params.id, // update user's password
+//               { $set: { password: req.body.password } }, {new:true},
+//               function(err, updatedUser){
+//                 if(!err) { // if no error occurrs ...
+//                   req.session.currentuser = updatedUser; // save updated
+//                   // user data in session
+//                   updatedUser.password = ''; // clear password data
+//                   res.json(updatedUser); // send user data to browser
+//                 } else { // if error occurrs ...
+//                   res.json(err); // ... send error
+//                 }
+//             });
+//             // check if request body contains user name information and if
+//             // username is not an empty string or only spaces ( --> also
+//             // checked in front end, this is to cover curl requests)
+//           } else if (req.body.username !== undefined && req.body.username.trim() !== '') {
+//               User.findByIdAndUpdate(req.params.id, // update user's username
+//               { $set: { username: req.body.username } }, {new:true},
+//               function(err, updatedUser){
+//                 if(!err) {
+//                   req.session.currentuser = updatedUser; // save updated
+//                   // user data in session
+//                   updatedUser.password = ""; // clear password data
+//                   res.json(updatedUser); /// send user data to browser
+//                 } else {
+//                   // if error occurrs ...
+//                   res.json(err); // send error
+//                 }
+//             });
+//           } else {
+//             // do not allow any other patch requests to this route
+//             res.status(403).send('Forbidden');
+//           }
+//       } else { // if error occurrs ...
+//         res.json(err); // send error
+//       }
+//     } else { // do not allow updates if user is not authorized
+//       res.status(403).send('Forbidden');
+//     }
+//   });
+// });
+//
+// /* User Delete Route */
+// router.delete('/:id', function(req, res){
+//   User.findById(req.params.id, function(err, foundUser){ // find user
+//     if(req.session.currentuser && req.session.currentuser._id.toString() === foundUser._id.toString()){ // check if session exists and if user is
+//       // authorized to delete this database entry
+//       if (!err) { // if no error occurrs, delete user
+//         User.findByIdAndRemove(req.params.id, function(err, deletedUser){
+//           if (!err) { // if no error occurs, remove all
+//             Workout.find({creator: deletedUser._id}).remove(function(err, deletedWorkouts) {
+//               console.log(deletedWorkouts);
+//             });
+//             req.session.destroy(function() { // log user out
+//               res.json({data: 'success'}); // send confirmation that session
+//               // has been destroyed
+//             });
+//           } else { // if error occurs
+//             res.json(err); // send error
+//           }
+//         });
+//       } else { // if error occurs
+//         res.json(err);  // send error
+//       }
+//     } else { // do not allow updates if user is not authorized
+//       res.status(403).send('Forbidden');
+//     }
+//   });
+// });
 
 
 // EXPORT //

@@ -1,15 +1,15 @@
 // MAIN SERVER //
 
 // DEPENDENCIES //
-var express = require('express');
-var app = express();
-var port = process.env.PORT || 3000;
-var mongoose = require('mongoose');
-var mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/final_project';
-var db = mongoose.connection;
-var session = require('express-session');
-var bcrypt = require('bcrypt');
-var bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+const mongoose = require('mongoose');
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/final_project';
+const db = mongoose.connection;
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
 
 
 // MIDDLEWARE //
@@ -22,12 +22,14 @@ app.use(session({
 }));
 
 // CONTROLLERS //
-var sessionsController = require('./controllers/sessions.js');
-var usersController = require('./controllers/users.js');
+const sessionsController = require('./controllers/sessions.js');
+const usersController = require('./controllers/users.js');
+const workoutController = require('./controllers/workouts.js');
 
 // CONTROLLER ROUTES //
 app.use('/sessions/', sessionsController);
 app.use('/users/', usersController);
+app.use('/workouts/', workoutController);
 
 
 
