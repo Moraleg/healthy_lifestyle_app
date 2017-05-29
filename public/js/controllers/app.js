@@ -1,6 +1,6 @@
 console.log('final_project app.js connected!');
 
-var app = angular.module('MyApp', []);
+const app = angular.module('MyApp', []);
 
 app.controller('mainController', ['$http', '$scope', function($http, $scope) {
   // this.test = 'mainController is working!';
@@ -12,6 +12,7 @@ app.controller('mainController', ['$http', '$scope', function($http, $scope) {
   this.confirmPassword = '';
   this.showMsg = false;
   this.msgContent = '';
+  this.workouts = [];
 
 
   // USER SIGNUP //
@@ -88,8 +89,7 @@ app.controller('mainController', ['$http', '$scope', function($http, $scope) {
   };//End submitLogin
 
 
-  // LOGOUT //
-
+  // USER LOGOUT //
   this.logoutUser = function() {
     $http({
       method: 'DELETE',
@@ -98,17 +98,35 @@ app.controller('mainController', ['$http', '$scope', function($http, $scope) {
       console.log(response);
       console.log('You\'ve logged out');
       //I want to change the view back to the splash page
-    
+
     }, function(error) {
       console.log(error);
     });
   }; //End logoutUser
 
+  // GET WORKOUT //
+  // this.getWorkouts = function() {
+  //   $http({
+  //     method: 'GET',
+  //     url: '/workouts'
+  //   }).then(function(response) {
+  //     controller.workouts = response.data;
+  //   }, function(error) {
+  //     console.log(error);
+  //   });
+  // }; //End getWorkouts
+  // controller.getWorkouts();
 
-
-
-
-
+  // // ADD WORKOUT //
+  // this.addWorkout = fuction() {
+  //   $http({
+  //     method: 'POST',
+  //     url: '/workouts/new',
+  //     data:
+  //   })
+  // }; //End addWorkout
+  //
+  //
 
 
 
