@@ -13,6 +13,7 @@ app.controller('mainController', ['$http', '$scope', function($http, $scope) {
   this.showMsg = false;
   this.msgContent = '';
   this.workouts = [];
+  this.session = false;
 
 
   // USER SIGNUP //
@@ -71,6 +72,7 @@ app.controller('mainController', ['$http', '$scope', function($http, $scope) {
       console.log(response);
       if(response.data.success === true) {
         console.log('You\'ve logged in');
+        controller.session = true;
         //I want to change view to dashboard
         //And hide login modal
       } else if (response.data.success === false) {
@@ -129,7 +131,24 @@ app.controller('mainController', ['$http', '$scope', function($http, $scope) {
   //
 
 
+  //=============== CALENDAR ===============
+  $(document).ready(function() {
 
+    $('#calendar').fullCalendar({
+      header: {
+        right: 'prev,next today',
+        left: 'title'
+      },
+      selectable: true,
+      selectHelper: true,
+      editable: true,
+      eventLimit: true
+      // dayClick: function() {
+      //   alert('a day has been clicked!');
+      // }
+    });
+
+  });
 
 
   //========= Event Listeners =======

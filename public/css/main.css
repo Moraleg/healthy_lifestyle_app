@@ -10,8 +10,88 @@ body {
   /*display: flex;*/
 }
 
+header {
+  position: static;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: block;
+  color: #333;
+  letter-spacing: 2.50px;
+  width: 40%;
+  padding-left: 2.5%;
+}
+
+nav {
+  letter-spacing: 2.46px;
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+nav a {
+  display: inline-block;
+  text-decoration: none;
+  color: #929292;
+  position: relative;
+  cursor: pointer;
+  text-align: right;
+  font-size: 18px;
+}
+
+nav a:hover {
+  color: #566473;
+  text-decoration: none;
+}
+
+
+/* Effect 1: Brackets */
+.cl-effect-1 a::before,
+.cl-effect-1 a::after {
+	display: inline-block;
+	opacity: 0;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+	-moz-transition: -moz-transform 0.3s, opacity 0.2s;
+	transition: transform 0.3s, opacity 0.2s;
+}
+
+.cl-effect-1 a::before {
+	margin-right: 10px;
+	content: '[';
+	-webkit-transform: translateX(20px);
+	-moz-transform: translateX(20px);
+	transform: translateX(20px);
+}
+
+.cl-effect-1 a::after {
+	margin-left: 10px;
+	content: ']';
+	-webkit-transform: translateX(-20px);
+	-moz-transform: translateX(-20px);
+	transform: translateX(-20px);
+}
+
+.cl-effect-1 a:hover::before,
+.cl-effect-1 a:hover::after,
+.cl-effect-1 a:focus::before,
+.cl-effect-1 a:focus::after {
+	opacity: 1;
+	-webkit-transform: translateX(0px);
+	-moz-transform: translateX(0px);
+	transform: translateX(0px);
+}
+
 .container {
   display: flex;
+  flex-flow: row nowrap;
 }
 
 .splash {
@@ -19,15 +99,14 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 100% 0;
-  flex-flow: column nowrap;
   overflow: hidden;
   width: 60vw;
   height: 100vh;
   opacity: 0.8;
+  display: block;
 }
 
-.nav {
-  flex-flow: column nowrap;
+.header {
   text-align: center;
 }
 
@@ -36,33 +115,66 @@ h1 {
   line-height: 40px;
   letter-spacing: 4px;
   font-weight: bold;
-  margin: 42vh 17vw;
+  margin: 2vh 17vw 13vh 17vw;
   font-size: 2.45em;
   text-shadow: 2px 2px 8px #929292;
-
 }
 
-.nav a {
+ul {
+  /*margin-top: 55%;*/
+  margin-top: 36vh;
+  padding: 0;
+  margin-bottom: 0;
+}
+.links {
   line-height: 40px;
   letter-spacing: 4px;
   text-align: center;
-  margin: 42vh 17vw;
-  text-decoration: none;
-  /*margin-right: 17vw;
-  margin-left: 17vw;*/
+  margin-right: 17vw;
+  margin-left: 17vw;
+  list-style: none;
   text-shadow: 1px 1px 8px #929292;
   color: #435a6b;
   font-weight: 800;
   font-size: 1.25em;
 }
 
-.calendar-container {
+.dash-info-container {
   display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.dash-info {
+  background-color: white;
+  width: 18vw;
+  border-top: 10px solid #435a6b;
+  border-bottom: 10px solid #435a6b;
+  display: block;
 }
 
 #calendar {
-  background-color: thistle;
+  background-color: #435a6b;
   max-width: 70vw;
-  flex-direction: row wrap;
-  padding: 2%;
+  padding: 1%;
+  color: white;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: space-around;
+
+}
+
+.fc-head {
+  background-color: #dbe3e5;
+
+}
+
+.fc-view-container {
+  background-color: white;
+  border-radius: 4px;
+  color: #333;
+}
+
+.fc {
+  font-size: 1.2em;
 }
