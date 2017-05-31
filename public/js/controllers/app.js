@@ -12,39 +12,58 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
   this.confirmPassword = '';
   this.showMsg = false;
   this.msgContent = '';
-  this.workouts = [];
+  // this.workouts = [];
   this.session = false;
 
   this.selectedWorkout = null;
   var selectedWorkout = this.selectedWorkout;
   this.events = [];
-  var events = this.events;
+  const events = this.events;
   eventSources = this.eventSources;
 
-  var date = new Date();
-  var d = date.getDate();
-  var m = date.getMonth();
-  var y = date.getFullYear();
+  const date = new Date();
+  const d = date.getDate();
+  const m = date.getMonth();
+  const y = date.getFullYear();
 
+  //================= GET WORKOUTS ==============//
+  this.getWorkouts = function () {
+  $http({ // http request to get session data
+    method: 'GET',
+    url: '/sessions'
+  }).then(
+    function (response) { // in case of success
+      console.log(response); // log response
+      if(response.data) {
+        $http({ // http request to get children based on logged-in user's id
+          method: 'GET',
+          url: '/workouts/'
+        }).then(
+          function (response) { // in case of success
+            console.log(response); // log response
+            if (response.data) { // if response contains data
+              ctrl.workouts = response.data;
+              for (var i = 0; i < response.data.length; i++) {
+                ctrl.events.push(response.data[i]);
+              }
+            } else {
+              console.log('something went wrong'); // log error
+            }
+          }, function (error) { // in case of failure
+            console.log(error); // log error
+          }
+        );
+      }
+    },
+    function (error) { // in case of failure
+      console.log(error); // log error
+    });
+  };
+  this.getWorkouts();
+  this.eventSources = [this.events];
+  const calendar = document.getElementById('calendar');
 
-  // Function to get workout event data on page load, if user is signed in:
-  // $http({
-  //   method: 'GET',
-  //   url: '/workouts'
-  // }).then(function(response) {
-  //   // console.log(response.data);
-  //   for (var i = 0; i < response.data.length; i++) {
-  //     this.events.push(response.data[i]);
-  //   }
-  //   console.log(this.events);
-  //   }.bind(this));
-  //
-  // // So that fullcalendar can display events:
-  // this.eventSources = [this.events];
-  //
-  // var calendar = document.getElementById('calendar');
-
-  //============== ANGULARUI CALENDAR ===========/
+  //=================== CALENDAR =================//
     this.uiConfig = {
      calendar: {
       height: 700,
@@ -60,19 +79,19 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
       },
       dayClick: function(date) {
         var thisDate = date;
+      },
+      eventClick: function(selectedWorkout) {
+        this.selectedWorkout = selectedWorkout;
+        console.log(selectedWorkout);
+        // console.log(events.indexOf(selectedWorkout));
       }
-      // eventClick: function(selectedWorkout) {
-      //   this.selectedWorkout = selectedWorkout;
-      //   console.log(selectedWorkout);
-      //   // console.log(events.indexOf(selectedWorkout));
-      // },
       // eventDrop: function(selectedWorkout, delta, revertFunc, jsEvent, ui, view) {
       //   this.selectedWorkout = selectedWorkout;
       //   console.log(selectedWorkout);
       //   console.log(selectedWorkout.start._d);
       //   var newDate = selectedWorkout.start._d;
-        // console.log(delta._days);
-        // console.log(selectedWorkout.start.add(delta._days, 'days'));
+      //   console.log(delta._days);
+      //   console.log(selectedWorkout.start.add(delta._days, 'days'));
     //     $http({
     //       method: 'PUT',
     //       url: '/workouts/' + selectedWorkout.id,
@@ -181,20 +200,6 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
       console.log(error);
     });
   }; //End logoutUser
-
-  // GET WORKOUT //
-  // this.getWorkouts = function() {
-  //   $http({
-  //     method: 'GET',
-  //     url: '/workouts'
-  //   }).then(function(response) {
-  //     ctrl.workouts = response.data;
-  //   }, function(error) {
-  //     console.log(error);
-  //   });
-  // }; //End getWorkouts
-  // ctrl.getWorkouts();
-
 
 
   // // ADD WORKOUT //

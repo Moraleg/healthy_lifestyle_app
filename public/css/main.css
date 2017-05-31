@@ -221,7 +221,7 @@ ul {
 .modal-text {
   text-align: center;
   color: crimson;
-  margin-top: 16px 0 0;
+  margin: 16px 0 0;
 }
 
 .legend-container {
@@ -231,6 +231,7 @@ ul {
 
 legend h2 {
   color: #333;
+  font-weight: normal;
 }
 
 .legend-container legend {
@@ -292,8 +293,8 @@ label {
 /*****************GET STARTED MODAL*******************/
 
 #signup-modal {
-  /*overflow: auto;
-  display: none;*/
+  overflow: auto;
+  display: none;
 }
 
 .signup-text {
