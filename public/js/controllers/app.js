@@ -1,6 +1,6 @@
 console.log('final_project app.js connected!');
 
-const app = angular.module('MyApp', ['ui.calendar']);
+const app = angular.module('MyApp', ['ui.calendar', 'ui.bootstrap.datetimepicker']);
 
 app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function($http, $scope, uiCalendarConfig) {
   // this.test = 'mainController is working!';
@@ -20,6 +20,12 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
   this.events = [];
   const events = this.events;
   eventSources = this.eventSources;
+  this.workoutType = ['Cardio', 'HIIT/Circuit Training', 'Strength Training', 'Flexibility', 'Rest Day'];
+  this.equipment = ['Cardio (treadmill, bike, elliptical, stairmaster, etc.)', 'Weights (dumbbells, barbells, medicine ball, etc.)', 'Resistance bands, TRX straps, Yoga mat, Bosu ball', 'Bodyweight'];
+  this.duration = ['less than 30 min', '1 hour', '1.5 hours', '2 hours', '2+ hours'];
+  this.addEventData = {};
+  this.events = [];
+  // this.thisDate = thisDate.format('MMMM Do');
 
   const date = new Date();
   const d = date.getDate();
@@ -33,7 +39,7 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
     url: '/sessions'
   }).then(
     function (response) { // in case of success
-      console.log(response); // log response
+      // console.log(response); // log response
       if(response.data) {
         $http({ // http request to get children based on logged-in user's id
           method: 'GET',
@@ -42,7 +48,7 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
           function (response) { // in case of success
             console.log(response); // log response
             if (response.data) { // if response contains data
-              ctrl.workouts = response.data;
+              ctrl.events = response.data;
               for (var i = 0; i < response.data.length; i++) {
                 ctrl.events.push(response.data[i]);
               }
@@ -79,12 +85,17 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
       },
       dayClick: function(date) {
         var thisDate = date;
-      },
-      eventClick: function(selectedWorkout) {
-        this.selectedWorkout = selectedWorkout;
-        console.log(selectedWorkout);
-        // console.log(events.indexOf(selectedWorkout));
+        $('#add-workout-modal').css('display', 'block');
+        // resolve: {
+        //   thisDate: thisDate
+        // }
+        console.log(date);
       }
+      // eventClick: function(selectedWorkout) {
+      //   this.selectedWorkout = selectedWorkout;
+      //   console.log(selectedWorkout);
+      //   console.log(events.indexOf(selectedWorkout));
+      // }
       // eventDrop: function(selectedWorkout, delta, revertFunc, jsEvent, ui, view) {
       //   this.selectedWorkout = selectedWorkout;
       //   console.log(selectedWorkout);
@@ -110,6 +121,42 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
       // }
      }
     };
+
+  //================ ADD WORKOUT ================//
+  this.addEvent = function() {
+    ctrl.addEventData.start = thisDate;
+    switch (this.addEventData.title) {
+      case 'Cardio':
+      ctrl.addEventData.backgroundColor = 'thistle';
+      break;
+      case 'HIIT':
+      ctrl.addEventData.backgroundColor = 'lavenderblush';
+      break;
+      case 'Strength Training':
+      ctrl.addEventData.backgroundColor = 'aquamarine';
+      break;
+      case 'Flexibility':
+      ctrl.addEventData.backgroundColor = 'salmon';
+      break;
+      case 'Rest Day':
+      ctrl.addEventData = 'yellow';
+      break;
+      default:
+      ctrl.addEventData.backgroundColor = 'purple';
+    }
+
+    $http({
+      method: 'POST',
+      url: '/workouts/new',
+      data: this.addEventData
+    }).then(function(response) {
+      console.log(response.data);
+      events.push(response.data);
+      ctrl.addEventData = {};
+      eventSources = [events];
+    });
+  };//End addEvent
+
 
   //================ USER SIGNUP ================//
   this.createAccount = function() {
@@ -164,7 +211,7 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
         password: this.password
       }
     }).then(function(response) {
-      console.log(response);
+      // console.log(response);
       if(response.data.success === true) {
         console.log('You\'ve logged in');
         ctrl.session = true;
@@ -184,7 +231,6 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
     });
   };//End submitLogin
 
-
   //================== USER LOGOUT ===============//
   this.logoutUser = function() {
     $http({
@@ -202,17 +248,6 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
   }; //End logoutUser
 
 
-  // // ADD WORKOUT //
-  // this.addWorkout = fuction() {
-  //   $http({
-  //     method: 'POST',
-  //     url: '/workouts/new',
-  //     data:
-  //   })
-  // }; //End addWorkout
-  //
-  //
-
 
   //========= Event Listeners =======
 
@@ -227,6 +262,8 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
   $('.close').on('click', function() {
     $('#login-modal').css('display', 'none');
     $('#signup-modal').css('display', 'none');
+    $('#add-workout-modal').css('display', 'none');
+
   });
 
 }]);//End mainController

@@ -244,7 +244,7 @@ label {
   letter-spacing: 0.5px;
 }
 
-#username-login, #password-login, #username, #password, #confirmPassword {
+#username-login, #password-login, #username, #password, #confirmPassword, #type, #equipment, #duration, #notes {
   padding: 10px;
   display: block;
   width: 90%;
@@ -268,6 +268,7 @@ label {
 #login-modal {
   overflow: auto;
   display: none;
+  z-index: 10;
 }
 
 .login-btn {
@@ -311,4 +312,13 @@ label {
 .login-anchor:hover {
   color: #435A6B;
   transition: .5s;
+}
+
+
+/**********************LOGIN MODAL*******************/
+
+#add-workout-modal {
+  overflow: auto;
+  display: none;
+  z-index: 10;
 }
