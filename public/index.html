@@ -19,18 +19,20 @@
      crossorigin="anonymous"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+     <!-- Angular UI Calendar -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-calendar/1.0.0/calendar.js"></script>
     <!-- APP JS -->
      <script src="js/controllers/app.js" charset="utf-8"></script>
 
   </head>
   <body ng-controller="mainController as ctrl">
-    <!-- {{ctrl.test}} -->
     <header ng-show="ctrl.session">
-      <h2 class="logo">TRAIN</h2>
+      <h2 ng-click="ctrl.logoutUser()" class="logo">TRAIN</h2>
       <nav role="navigation"  class="cl-effect-1" id="cl-effect-1">
         <a href="#">ABOUT</a>
         <a href="#">PROGRESS</a>
-        <a href="#">LOGOUT</a>
+        <a ng-click="ctrl.logoutUser()">LOGOUT</a>
+        <br/>
       </nav>
     </header>
     <section ng-show="!ctrl.session" class="container">
@@ -38,8 +40,8 @@
     </div>
     <div class="nav-splash">
       <ul>
-        <li class="links">SIGN UP</li>
-        <li class="links">LOGIN</li>
+        <li id="open-signup" class="links">SIGN UP</li>
+        <li class="links open-login">LOGIN</li>
       </ul>
       <!-- <a class="links" href="#">SIGN UP</a><br/>
       <a class="links" href="#">LOGIN</a> -->
@@ -47,68 +49,76 @@
     </div>
     </section>
 
-
     <!-- CREATE ACCOUNT -->
-    <!--Button to close modal-->
-    <!-- <div>
-      <a class="close">X</a>
-    </div> -->
-    <!-- Button to close the modal END-->
-    <!-- <form class="form" ng-submit="ctrl.createAccount()">
-      <div class="legend-container">
-        <legend align="center"><h2>Create Account</h2></legend>
+    <section id="signup-modal" class="modal">
+      <section class="modal-input-box">
+        <!--Button to close modal-->
+        <div>
+          <a class="close">X</a>
+        </div>
+        <!-- Button to close the modal END-->
+        <form class="form" ng-submit="ctrl.createAccount()">
+          <div class="legend-container">
+            <legend align="center"><h2>Create Account</h2></legend>
+          </div>
+          <label for="username">Username: </label><br/>
+          <input id="username" type="text" placeholder="username" ng-model="ctrl.username" required/>
+          <br />
+          <label for="password">Password: </label><br/>
+          <input id="password" type="password" placeholder="password" ng-model="ctrl.password" required min-length="8" />
+          <br />
+          <label for="confirmPassword">Confirm password: </label><br/>
+          <input id="confirmPassword" type="password" placeholder="confirm password" ng-model="ctrl.confirmPassword" required minlength="8"/>
+          <br />
+          <input class="login-btn" type="submit" value="CREATE ACCOUNT" />
+        </form>
+        <p class="modal-text" ng-if="ctrl.showMsg">{{ctrl.msgContent}}</p>
+        <br>
+        <p class="signup-text">Already have an account? <a class="login-anchor open-login">Login Here</a></p>
+      </section>
+    </section>
+
+
+    <!-- LOGIN -->
+    <section id="login-modal" class="modal">
+      <section class="modal-input-box">
+        <!--Button to close modal-->
+        <div>
+        <a class="close">X</a>
+        </div>
+      <!-- Button to close the modal END-->
+        <form ng-submit="ctrl.submitLogin()">
+          <div class="legend-container">
+            <legend><h2>Login</h2></legend>
+          </div>
+          <label for="username">Username:</label><br/>
+          <input id="username-login" type="text" placeholder="username" ng-model="ctrl.username" required/>
+          <br/>
+          <label for="password">Password:</label><br/>
+          <input id="password-login" type="password" placeholder="password" ng-model="ctrl.password" required min-length="8"/>
+          <br/>
+          <input class="login-btn" type="submit" value="LOGIN"/>
+        </form>
+        <p class="modal-text" ng-if="ctrl.showMsg">{{ctrl.msgContent}}</p>
+
+      </section>
+    </section>
+    <br/>
+    <!-- CALENDAR -->
+    <section ng-show="ctrl.session" class="dash-info-container">
+      <div ng-show="ctrl.session" class="dash-info">
+        <h3 class="sidebar">TRAINING FOR</h3>
+        <h3 class="sidebar">WEEKLY GOAL</h3>
+        <h3 class="sidebar">DATE</h3>
       </div>
-      <label for="username">Username: </label><br/>
-      <input id="username" type="text" placeholder="username" ng-model="ctrl.username" required/>
-      <br />
-      <label for="password">Password: </label><br/>
-      <input id="password" type="password" placeholder="password" ng-model="ctrl.password" required min-length="8" />
-      <br />
-      <label for="confirmPassword">Confirm password: </label><br/>
-      <input id="confirmPassword" type="password" placeholder="confirm password" ng-model="ctrl.confirmPassword" required minlength="8"/>
-      <br />
-      <input id="create-account-btn" type="submit" value="CREATE ACCOUNT" />
-    </form>
-    <p class="modal-text" ng-if="ctrl.displayMessage">{{signUp.msgContent}}</p>
-    <br> -->
-    <!-- <p class="modal-text">Already have an account? <a class="login-anchor">Login Here</a></p> -->
+      <!-- Render Calendar to Page -->
+     <div id="calendar" ui-calendar="ctrl.uiConfig.calendar" ng-model="ctrl.eventSources"></div>
+     <br>
+      <!-- <div ng-show="ctrl.session" id="calendar">
 
-  <!-- LOGOUT -->
-
-  <!-- <a href="#" class="underline" ng-click="ctrl.logoutUser()">LOG OUT</a> -->
-  <br/>
-  <!-- CALENDAR -->
-  <section class="dash-info-container">
-    <div class="dash-info">
-
-    </div>
-    <div id="calendar">
-
-    </div>
-  </section>
-
-  <!-- LOGIN -->
-  <!--Button to close modal-->
-  <div>
-  <a class="close">X</a>
-  </div>
-<!-- Button to close the modal END-->
-  <form ng-submit="ctrl.submitLogin()">
-    <div class="legend-container">
-      <legend><h2>Login</h2></legend>
-    </div>
-    <label for="username">Username:</label>
-    <input id="username-login" type="text" placeholder="username" ng-model="ctrl.username" required/>
+      </div> -->
+    </section>
     <br/>
-    <label for="password">Password:</label>
-    <input id="password-login" type="password" placeholder="password" ng-model="ctrl.password" required min-length="8"/>
-    <br/>
-    <input id="login-btn" type="submit" value="LOGIN"/>
-  </form>
-  <p class="modal-text" ng-if="login.showMsg">{{login.msgContent}}</p>
-
-  <br/>
-
 
   </body>
 </html>

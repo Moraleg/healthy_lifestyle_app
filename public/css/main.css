@@ -7,7 +7,6 @@ body {
   /*font-family: 'Dosis', sans-serif;*/
   /*font-family: 'Roboto Condensed', sans-serif;*/
   font-family: 'Open Sans Condensed', sans-serif;
-  /*display: flex;*/
 }
 
 header {
@@ -126,6 +125,7 @@ ul {
   padding: 0;
   margin-bottom: 0;
 }
+
 .links {
   line-height: 40px;
   letter-spacing: 4px;
@@ -133,16 +133,22 @@ ul {
   margin-right: 17vw;
   margin-left: 17vw;
   list-style: none;
-  text-shadow: 1px 1px 8px #929292;
+  /*text-shadow: 1px 1px 8px #929292;*/
   color: #435a6b;
   font-weight: 800;
   font-size: 1.25em;
 }
 
+.links:hover {
+  color: #253237;
+}
+
 .dash-info-container {
+  height: auto;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
+  margin-bottom: 25px;
 }
 
 .dash-info {
@@ -155,13 +161,19 @@ ul {
 
 #calendar {
   background-color: #435a6b;
-  max-width: 70vw;
+  width: 70vw;
   padding: 1%;
   color: white;
   border-radius: 4px;
   align-items: center;
   justify-content: space-around;
+}
 
+.sidebar {
+  text-align: center;
+  color: #435a6b;
+  letter-spacing: 2.5px;
+  margin-top: 18vh;
 }
 
 .fc-head {
@@ -177,4 +189,125 @@ ul {
 
 .fc {
   font-size: 1.2em;
+}
+
+.fc-left h2 {
+  letter-spacing: 2.5px;
+}
+/*****************UNIVERSAL MODAL CODE*******************/
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background-color: rgba(48, 48, 48, 0.7);
+  overflow: scroll;
+  font-family: 'Helvetica Neue';
+  color: #333;
+}
+
+.modal-input-box {
+  background-color: white;
+  max-width: 450px;
+  border-radius: 4px;
+  margin: 150px auto;
+  padding: 2%;
+  line-height: 120%;
+}
+
+.modal-text {
+  text-align: center;
+  color: crimson;
+  margin-top: 16px 0 0;
+}
+
+.legend-container {
+  display: flex;
+  margin: auto;
+}
+
+legend h2 {
+  color: #333;
+}
+
+.legend-container legend {
+  margin: auto;
+  margin-bottom: 12px;
+}
+
+label {
+  margin-left: 21px;
+  letter-spacing: 0.5px;
+}
+
+#username-login, #password-login, #username, #password, #confirmPassword {
+  padding: 10px;
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.close {
+  background-color: white;
+  color: #C2DFE3;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #566473;
+  transition: .5s
+}
+
+
+/**********************LOGIN MODAL*******************/
+
+#login-modal {
+  overflow: auto;
+  display: none;
+}
+
+.login-btn {
+  letter-spacing: 0.46px;
+  color: white;
+  border: 2px solid #C2DFE3;
+  background-color: #C2DFE3;
+  padding: 10px 55px;
+  border-radius: 20px;
+  text-align: center;
+  display: block;
+  margin: 15px auto;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  border: 2px solid #435A6B;
+  background-color: #435A6B;
+  transition: .5s
+}
+
+
+/*****************GET STARTED MODAL*******************/
+
+#signup-modal {
+  /*overflow: auto;
+  display: none;*/
+}
+
+.signup-text {
+  text-align: center;
+  color: #333;
+  margin: 0;
+}
+
+.login-anchor {
+  text-decoration: none;
+  color: #C2DFE3;
+}
+
+.login-anchor:hover {
+  color: #435A6B;
+  transition: .5s;
 }
