@@ -12,11 +12,10 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
   this.confirmPassword = '';
   this.showMsg = false;
   this.msgContent = '';
-  // this.workouts = [];
   this.session = false;
 
-  // this.selectedWorkout = null;
-  // var selectedWorkout = this.selectedWorkout;
+  this.selectedWorkout = null;
+  var selectedWorkout = this.selectedWorkout;
   this.events = [];
   const events = this.events;
   eventSources = this.eventSources;
@@ -38,6 +37,7 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
       height: 700,
       editable: true,
       selectable: true,
+      selectHelper: true,
       header: {
         right: 'today prev,next'
       },
@@ -54,40 +54,13 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
         // }
         console.log(date);
       }
-      // eventClick: function(selectedWorkout) {
-      //   this.selectedWorkout = selectedWorkout;
-      //   console.log(selectedWorkout);
-      //   console.log(events.indexOf(selectedWorkout));
-      // }
-      // eventDrop: function(selectedWorkout, delta, revertFunc, jsEvent, ui, view) {
-      //   this.selectedWorkout = selectedWorkout;
-      //   console.log(selectedWorkout);
-      //   console.log(selectedWorkout.start._d);
-      //   var newDate = selectedWorkout.start._d;
-      //   console.log(delta._days);
-      //   console.log(selectedWorkout.start.add(delta._days, 'days'));
-    //     $http({
-    //       method: 'PUT',
-    //       url: '/workouts/' + selectedWorkout.id,
-    //       data: {
-    //         start: newDate
-    //       }
-    //     }).then(function(response) {
-    //       console.log(response.data);
-    //       for (var i = 0; i < events.length; i++) {
-    //         if (selectedWorkout._id === events[i]._id) {
-    //           events.splice(i, 1);
-    //         }
-    //       }
-    //       events.push(response.data[0]);
-    //     });
-      // }
      }
     };
 
 
     //================= GET WORKOUTS ==============//
     this.getWorkouts = function () {
+      console.log('Inside the getWorkouts function');
     $http({ // http request to get session data
       method: 'GET',
       url: '/sessions'
@@ -97,12 +70,14 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
         if(response.data) {
           $http({ // http request to get workouts based on logged-in user's id
             method: 'GET',
-            url: '/workouts/'
+            url: '/workouts'
           }).then(
             function (response) { // in case of success
-              console.log(response); // log response
+              console.log(response.data); // log response
+              ctrl.events = response.data;
               if (response.data) { // if response contains data
                 ctrl.events = response.data;
+                console.log(ctrl.events);
                 for (var i = 0; i < response.data.length; i++) {
                   ctrl.events.push(response.data[i]);
                 }
@@ -127,27 +102,6 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
   //================ ADD WORKOUT ================//
   this.addEvent = function() {
     console.log('inside addEvent');
-    // ctrl.addEventData.start = thisDate;
-    // switch (this.addEventData.title) {
-    //   case 'Cardio':
-    //   ctrl.addEventData.backgroundColor = 'thistle';
-    //   break;
-    //   case 'HIIT':
-    //   ctrl.addEventData.backgroundColor = 'lavenderblush';
-    //   break;
-    //   case 'Strength Training':
-    //   ctrl.addEventData.backgroundColor = 'aquamarine';
-    //   break;
-    //   case 'Flexibility':
-    //   ctrl.addEventData.backgroundColor = 'salmon';
-    //   break;
-    //   case 'Rest Day':
-    //   ctrl.addEventData = 'yellow';
-    //   break;
-    //   default:
-    //   ctrl.addEventData.backgroundColor = 'purple';
-    // }
-
 
     $http({ // http request to get session data
       method: 'GET',
@@ -167,7 +121,9 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
               events.push(response.data);
               ctrl.addEventData = {};
               // eventSources = [events];
-            }.bind(this)
+              $('#add-workout-modal').hide();
+              ctrl.getWorkouts();
+            }
           );
         }
       });
