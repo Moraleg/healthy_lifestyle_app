@@ -95,6 +95,8 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
       });
     };
     this.getWorkouts();
+
+    
     this.eventSources = [this.events];
     const calendar = document.getElementById('calendar');
 
