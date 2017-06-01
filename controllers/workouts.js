@@ -29,33 +29,36 @@ router.get('/', function(req, res) {
 
 /* Workout Post Route */
 //tested w/ curl -> 'session: false'
-// router.post('/', function(req, res) {
-//   // console.log('inside post route');
-//   if(req.session.currentuser) {
-//     req.body.creator = req.session.currentuser._id;
-//     Workout.create(req.body, function(err, createdWorkout) {
-//       if(!err) {
-//         res.json(err);
-//       }
-//     });
-//   } else {
-//     res.json({session: false});
-//   }
-// });
-
-
-router.post('/new', function (req, res)  {
-  // Create new database entry based on user input
-  Workout.create(req.body, function (err, createdWorkout) {
-    if(!err) {
-      // if no error occurs, send json of createdActivity
-      res.json(createdWorkout);
-    } else {
-      // else send error
-      res.json(err);
-    }
-  });
+router.post('/new', function(req, res) {
+  console.log('inside post route');
+  console.log(req.body);
+  if(req.session.currentuser) {
+    req.body.creator = req.session.currentuser._id;
+    console.log(req.body);
+    Workout.create(req.body, function(err, createdWorkout) {
+      console.log(err);
+      if(!err) {
+        res.json(createdWorkout);
+      }
+    });
+  } else {
+    res.json({session: false});
+  }
 });
+
+
+// router.post('/new', function (req, res)  {
+//   // Create new database entry based on user input
+//   Workout.create(req.body, function (err, createdWorkout) {
+//     if(!err) {
+//       // if no error occurs, send json of createdActivity
+//       res.json(createdWorkout);
+//     } else {
+//       // else send error
+//       res.json(err);
+//     }
+//   });
+// });
 
 
 

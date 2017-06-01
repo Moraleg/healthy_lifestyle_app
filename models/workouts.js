@@ -6,11 +6,11 @@ const Schema = mongoose.Schema;
 
 const workoutSchema = new Schema({
   creator: {type: Schema.Types.ObjectId, ref: 'User', required: true},
-  training: {type: String, required: true},
-  exerciseType: {type: String, required: true},
+  training: {type: String },
+  exerciseType: {type: String},
   equipment: {type: String, required: true},
   duration: {type: String, required: true},
-  weeklyGoal: {type: Number, required: true},
+  weeklyGoal: {type: Number },
   notes: {type: String}
 });
 

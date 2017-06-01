@@ -5,6 +5,10 @@
     <title>TRAIN</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Angular Bootstrap datetimepicker CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-datetimepicker/1.1.3/css/datetimepicker.min.css">
+    <!-- fullCalendar stylesheet-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css">
     <!-- CSS -->
     <link rel="stylesheet" href="/css/main.css">
     <!-- GOOGLE FONTS -->
@@ -13,13 +17,14 @@
     <!-- ANGULAR JS -->
      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" charset="utf-8"></script>
 
-    <!-- fullCalendar -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css">
+    <!-- fullCalendar JS -->
     <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
+    <!-- MOMENT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
 
     <!-- Angular UI Calendar -->
@@ -141,7 +146,7 @@
             <label for="type">Exercise Type</label><br/>
             <div>
               <select id="type" ng-model="ctrl.addEventData.title">
-                <option ng-repeat="workout in ctrl.workoutType" value="{{workout}}">{{workout}}</option>
+                <option ng-repeat="workout in ctrl.exerciseType" value="{{workout}}">{{workout}}</option>
               </select>
             </div>
           </div>
@@ -150,7 +155,7 @@
           <div class="form-group">
             <label for="equipment">Equipment</label><br/>
             <div>
-              <select id="equipment" ng-model="ctrl.addEventData.equipment_used">
+              <select id="equipment" ng-model="ctrl.addEventData.equipment">
                 <option ng-repeat="equipment in ctrl.equipment" value="{{equipment}}">{{equipment}}</option>
               </select>
             </div>
@@ -167,8 +172,8 @@
           </div>
           <br/>
           <label for="notes">Notes:</label><br/>
-          <textarea id="notes" placeholder="Did an hour cardio on the treadmill" ng-model="ctrl.addEventData.notes"></textarea>
-          <input type="hidden" ng-model='addModal.addEventData.start'> <br>
+          <textarea id="notes" placeholder="Ex. Did an hour cardio on the treadmill" ng-model="ctrl.addEventData.notes"></textarea>
+          <input type="hidden" ng-model="addModal.addEventData.start"> <br>
           <input class="login-btn" type="submit" value="Add Workout"/>
         </form>
       </section>
