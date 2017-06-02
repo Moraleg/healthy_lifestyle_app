@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Moraleg/healthy_lifestyle_app#readme",
   "dependencies": {
+    "angular-ui-calendar": "^1.0.2",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",

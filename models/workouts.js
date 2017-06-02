@@ -11,7 +11,8 @@ const workoutSchema = new Schema({
   equipment: {type: String, required: true},
   duration: {type: String, required: true},
   weeklyGoal: {type: Number },
-  notes: {type: String}
+  notes: {type: String},
+  date: {type: Date}
 });
 
 const Workout = mongoose.model('Workout', workoutSchema);
