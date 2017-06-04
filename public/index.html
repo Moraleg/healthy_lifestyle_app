@@ -129,8 +129,8 @@
         <h3 class="sidebar">WEEKLY GOAL</h3>
         <h3 class="sidebar">DATE</h3>
       </div>
-      <div ng-click="ctrl.eventClick(ctrl.uiConfig.calendar)" id="calendar" ui-calendar="ctrl.uiConfig.calendar" ng-model="ctrl.eventSources"></div>
-      {{ctrl.events}}
+      <div id="calendar" ui-calendar="ctrl.uiConfig.calendar" ng-model="ctrl.eventSources"></div>
+      <!-- {{ctrl.events}} -->
     </section>
     <br/>
     <!-- END CALENDAR -->
@@ -179,7 +179,8 @@
           <br/>
           <label for="notes">Notes:</label><br/>
           <textarea id="notes" placeholder="Ex. Did an hour cardio on the treadmill" ng-model="ctrl.addEventData.notes"></textarea>
-          <input type="hidden" ng-model="addModal.addEventData.start"> <br>
+          <input type="hidden" name="date" ng-model="ctrl.addEventData.date" value="{{ctrl.thisDate}}">
+          <input type="hidden" ng-model="ctrl.addEventData.start"> <br>
           <input class="login-btn" type="submit" value="Add Workout"/>
         </form>
       </section>

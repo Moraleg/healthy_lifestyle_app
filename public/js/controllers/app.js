@@ -23,8 +23,7 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
   this.equipment = ['Cardio (treadmill, bike, elliptical, stairmaster, etc.)', 'Weights (dumbbells, barbells, medicine ball, etc.)', 'Resistance bands, TRX straps, Yoga mat, Bosu ball', 'Bodyweight'];
   this.duration = ['less than 30 min', '1 hour', '1.5 hours', '2 hours', '2+ hours'];
   this.addEventData = {};
-  // this.thisDate = moment().format('MMM Do');
-  // this.clickedDate = '';
+
 
   const date = new Date();
   const d = date.getDate();
@@ -39,18 +38,22 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
       editable: true,
       selectable: true,
       selectHelper: true,
+      stick: true,
       header: {
         right: 'today prev,next'
       },
       views: {
         month: {
           columnFormat:'dddd'
-        }
+        },
       },
-      dayClick: function(date) {
+      dayClick: function(date, event) {
         $('#add-workout-modal').css('display', 'block');
+          ctrl.selectedDay = date.format('D');
+          ctrl.selectedMonth = date.format('M');
+          ctrl.selectedYear = date.format('YYYY');
           ctrl.thisDate = date.format('MMM Do');
-          // ctrl.clickedDate = date._d;
+          ctrl.eventSources = [ctrl.events];
         console.log(date);
       }
      }
@@ -69,20 +72,14 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
         if(response.data) {
           $http({ // http request to get workouts based on logged-in user's id
             method: 'GET',
-            url: '/workouts'
+            url: '/workouts',
+            // data: ctrl.addEventData,
           }).then(
             function (response) { // in case of success
               console.log(response.data); // log response
-              ctrl.events = response.data;
-              // if (response.data) { // if response contains data
-                // ctrl.events = response.data;
-                // console.log(ctrl.events);
-                for (var i = 0; i < response.data.length; i++) {
-                  ctrl.events.push(response.data[i]);
-                }
-              // } else {
-              //   console.log('something went wrong'); // log error
-              // }
+              ctrl.eventSources = [ctrl.events];
+              console.log(eventSources);
+
             }, function (error) { // in case of failure
               console.log(error); // log error
             }
@@ -96,7 +93,8 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
     this.getWorkouts();
 
 
-    this.eventSources = [this.events];
+    ctrl.eventSources = [ctrl.events];
+    console.log(eventSources);
     const calendar = document.getElementById('calendar');
 
 
@@ -119,9 +117,19 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
           }).then(function (response) { // in case of success
               console.log('this is the response: ', response); // log response
               console.log('this is the response.data: ', response.data);
-              events.push(response.data);
-              ctrl.addEventData = {};
-              // eventSources = [events];
+
+              console.log(ctrl.thisDate);
+              console.log(ctrl.selectedDay);
+              console.log(ctrl.selectedMonth);
+              console.log(ctrl.selectedYear);
+
+              events.push({
+                title: response.data.exerciseType,
+                stick: true,
+                start: new Date(y, m, parseInt(ctrl.selectedDay)),
+                end: new Date(y, m, parseInt(ctrl.selectedDay))
+              });
+              eventSources = [events];
               $('#add-workout-modal').hide();
               ctrl.getWorkouts();
             }

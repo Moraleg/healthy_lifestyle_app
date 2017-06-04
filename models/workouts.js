@@ -12,7 +12,7 @@ const workoutSchema = new Schema({
   duration: {type: String, required: true},
   weeklyGoal: {type: Number },
   notes: {type: String},
-  date: {type: Date}
+  date: {type: String}
 });
 
 const Workout = mongoose.model('Workout', workoutSchema);
