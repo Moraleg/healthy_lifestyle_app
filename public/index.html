@@ -61,8 +61,6 @@
         <li id="open-signup" class="links">SIGN UP</li>
         <li class="links open-login">LOGIN</li>
       </ul>
-      <!-- <a class="links" href="#">SIGN UP</a><br/>
-      <a class="links" href="#">LOGIN</a> -->
       <h1>TRAIN</h1>
     </div>
     </section>
@@ -126,8 +124,11 @@
     <section ng-show="ctrl.session" class="dash-info-container">
       <div ng-show="ctrl.session" class="dash-info">
         <h3 class="sidebar">TRAINING FOR</h3>
+        <p class="sidebar-p">{{ctrl.addEventData.training}}</p>
         <h3 class="sidebar">WEEKLY GOAL</h3>
-        <h3 class="sidebar">DATE</h3>
+        <p class="sidebar-p">{{ctrl.addEventData.weeklyGoal}}</p>
+        <h3 class="sidebar">{{ctrl.addEventData.training}} Date</h3>
+        <p class="sidebar-p">{{ctrl.addEventData.date}}</p>
       </div>
       <div id="calendar" ui-calendar="ctrl.uiConfig.calendar" ng-model="ctrl.eventSources"></div>
       <!-- {{ctrl.events}} -->
@@ -135,7 +136,7 @@
     <br/>
     <!-- END CALENDAR -->
 
-    <!-- Add Workout Modal-->
+    <!-- Add WORKOUT MODAL-->
     <section id="add-workout-modal" class="modal">
       <section class="modal-input-box">
         <!--Button to close modal-->
@@ -177,6 +178,12 @@
             </div>
           </div>
           <br/>
+          <label for="training">Training For</label><br/>
+          <input id="training" type="text" placeholder="Ex. Marathon" ng-model="ctrl.addEventData.training"/><br/>
+          <label for="weekly">Weekly Goal:</label><br/>
+          <input id="weekly" type="text" placeholder="In Hours" ng-model="ctrl.addEventData.weeklyGoal"/><br/>
+          <label for="event-date">Event Date:</label><br/>
+          <input id="event-date" type="text" placeholder="Ex. 06/21/2017" ng-model="ctrl.addEventData.date"/><br/><br/>
           <label for="notes">Notes:</label><br/>
           <textarea id="notes" placeholder="Ex. Did an hour cardio on the treadmill" ng-model="ctrl.addEventData.notes"></textarea>
           <input type="hidden" name="date" ng-model="ctrl.addEventData.date" value="{{ctrl.thisDate}}">

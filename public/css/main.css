@@ -176,6 +176,13 @@ ul {
   margin-top: 18vh;
 }
 
+.sidebar-p {
+  text-align: center;
+  color: #435a6b;
+  letter-spacing: 2.5px;
+  font-size: 18px;
+}
+
 .fc-head {
   background-color: #dbe3e5;
 
@@ -193,6 +200,19 @@ ul {
 
 .fc-left h2 {
   letter-spacing: 2.5px;
+}
+
+.fc-time {
+  display: none;
+}
+
+.fc-day-grid-event {
+  padding: 3px;
+  font-size: 12px;
+  text-align: center;
+  font-family: 'Helvetica Neue', 'sans-serif';
+  background-color: #05A8AA;
+  border-color: #05A8AA;
 }
 /*****************UNIVERSAL MODAL CODE*******************/
 
@@ -244,12 +264,20 @@ label {
   letter-spacing: 0.5px;
 }
 
-#username-login, #password-login, #username, #password, #confirmPassword, #type, #equipment, #duration, #notes {
+#username-login, #password-login, #username, #password, #confirmPassword, #type, #equipment, #duration  {
   padding: 10px;
   display: block;
-  width: 90%;
+  width: 93%;
   margin: 0 auto;
 }
+
+#notes,#training, #weekly, #event-date {
+  padding: 10px;
+  display: block;
+  width: 87%;
+  margin: 0 auto;
+}
+
 
 .close {
   background-color: white;

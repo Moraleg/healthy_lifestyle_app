@@ -10,7 +10,7 @@ const workoutSchema = new Schema({
   exerciseType: {type: String},
   equipment: {type: String, required: true},
   duration: {type: String, required: true},
-  weeklyGoal: {type: Number },
+  weeklyGoal: {type: String },
   notes: {type: String},
   date: {type: String}
 });

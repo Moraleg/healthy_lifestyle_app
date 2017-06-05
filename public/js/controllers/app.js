@@ -77,9 +77,9 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
           }).then(
             function (response) { // in case of success
               console.log(response.data); // log response
+              ctrl.events = response.data;
               ctrl.eventSources = [ctrl.events];
-              console.log(eventSources);
-
+              console.log(ctrl.eventSources);
             }, function (error) { // in case of failure
               console.log(error); // log error
             }
@@ -92,10 +92,9 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
     };
     this.getWorkouts();
 
-
     ctrl.eventSources = [ctrl.events];
-    console.log(eventSources);
     const calendar = document.getElementById('calendar');
+
 
 
   //================ ADD WORKOUT ================//
@@ -109,7 +108,6 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
       function (response) { // in case of success
         console.log(response); // log response
         if(response.data) {
-          console.log('logging data: ', this.addEventData, ctrl);
           $http({
             method: 'POST',
             url: '/workouts/new',
@@ -129,7 +127,7 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
                 start: new Date(y, m, parseInt(ctrl.selectedDay)),
                 end: new Date(y, m, parseInt(ctrl.selectedDay))
               });
-              eventSources = [events];
+              ctrl.eventSources = [ctrl.events]
               $('#add-workout-modal').hide();
               ctrl.getWorkouts();
             }
@@ -198,7 +196,10 @@ app.controller('mainController', ['$http', '$scope','uiCalendarConfig', function
       if(response.data.success === true) {
         console.log('You\'ve logged in');
         ctrl.session = true;
+        ctrl.specificUser = response.data;
+        console.log(response.data);
         $('#login-modal').hide();
+        ctrl.getWorkouts();
       } else if (response.data.success === false) {
         ctrl.msgContent = 'Sorry the username or password you entered is incorrect. Please try again.';
         ctrl.showMsg = true;
